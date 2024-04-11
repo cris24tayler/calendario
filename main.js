@@ -1,11 +1,11 @@
-
-function colorirDia(){
-    let days    = document.getElementById('day').value;
-    let color   = document.getElementById('color').value;
-    let calendar = document.getElementById('calendar');
-    let td = calendar.getElementsByTagName('td')[(parseInt(days))]; 
-    td.style.backgroundColor = color;
-}
+let colorCounts = {}; // Objeto para armazenar contagens de cores
+ 
+function colorirDia() {
+    let days = document.getElementById('day').value;
+    let color = document.getElementById('color').value;
+    let calendar = document.getElementById('corpo_tabela');
+    let tds = calendar.getElementsByTagName('td');
+   
     // Verifica se o número digitado é válido (não maior que 30)
     if (parseInt(days) > 30) {
         alert("Esse número é inválido. O número não pode ser maior do que 30.");
@@ -17,7 +17,17 @@ function colorirDia(){
    
     // Verifica se o índice está dentro do intervalo válido
     if (index >= 0 && index < tds.length) {
+        // Verifica se a cor já foi selecionada três vezes
+        if (colorCounts[color] >= 3) {
+            alert('O frete não tem capacidade para mais de 3 viagens');
+            return; // Sai da função se a cor já foi selecionada três vezes
+        }
+       
+        // Atualiza o contador da cor selecionada
+        colorCounts[color] = (colorCounts[color] || 0) + 1;
+ 
         tds[index].style.backgroundColor = color;
     } else {
         alert('Dia selecionado está fora do intervalo válido.');
     }
+}
